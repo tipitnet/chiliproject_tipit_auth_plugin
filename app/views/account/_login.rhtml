@@ -30,6 +30,27 @@
          <%= link_to l(:label_register), { :controller => 'account', :action => 'register' }, :tabindex => 1 %>
       <% end %>
     </div>
-    <a href="/auth/google_oauth2"><img width="200" src="https://developers.google.com/accounts/images/sign-in-with-google.png" alt="Sign-In with Google"></a>
+    <a href="javascript:redirect_to_google()"><img width="200" src="https://developers.google.com/accounts/images/sign-in-with-google.png" alt="Sign-In with Google"></a>
   <% end %>
 </div>
+<script>
+
+    function getParameterByName(name) {
+        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                results = regex.exec(location.search);
+        return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
+
+    function redirect_to_google() {
+        var backUrl = getParameterByName('back_url');
+        var origin = location.origin;
+        var nextLocation = origin + '/auth/google_oauth2';
+        if (backUrl) {
+            nextLocation += location.search;
+        }
+        window.location = nextLocation;
+    }
+
+</script>
+

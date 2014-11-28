@@ -22,6 +22,9 @@ module TipitAuth
         if (user.nil?)
           user = create_user_from_oauth_hash(auth_hash)
         end
+        if request.env['omniauth.params']['back_url']
+          params[:back_url] = request.env['omniauth.params']['back_url']
+        end
         successful_authentication(user)
       end
 
